@@ -28,23 +28,24 @@ const MovieCast = () => {
       MovieCast
       {loading && <p>Is loading, please wait...</p>}
       {error && <p>Oops! There was an error, please reload!</p>}
-      {casts && (
+      {casts ? (
         <ul>
           {casts.map(cast => (
             <li key={cast.cast_id}>
               <img
                 src={`https://image.tmdb.org/t/p/w500/${cast.profile_path}`}
-                      alt={cast.name}
-                      width={100}
+                alt={cast.name}
+                width={100}
               />
               <h6>{cast.name}</h6>
               <p>{cast.character}</p>
-            </li>
-          ))}
+            </li>)
+          )}
         </ul>
-      )}
+      ) : (!loading && !error && <p>No casts available</p>)}
     </div>
   );
+
 };
 
 export default MovieCast;

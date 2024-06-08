@@ -68,3 +68,15 @@ export const getListCast = async movie_id => {
     console.error();
   }
 };
+
+export const getMovieReview = async movie_id => {
+  console.log(movie_id);
+  const url = `https://api.themoviedb.org/3/movie/${movie_id}/reviews?language=en-US&page=1`;
+  try {
+    const response = await axios.get(url, options);
+
+    return response
+  } catch (error) {
+    console.error();
+  }
+};
