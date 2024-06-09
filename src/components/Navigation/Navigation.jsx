@@ -8,12 +8,7 @@ const buildLinkClass = ({ isActive }) => {
 const Navigation = () => {
     return (
       <header className={css.header}>
-        {/* <p className={css.logo}>
-          <span role='img' aria-label='computer icon'>
-            💻
-          </span>{' '}
-          GoMerch Store
-        </p> */}
+
         <nav className={css.nav}>
           <NavLink to='/' className={buildLinkClass}>
             Home

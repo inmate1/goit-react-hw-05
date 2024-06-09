@@ -1,5 +1,5 @@
 // Компоненты MovieCastне MovieReviewsявляются отдельными страницами, они являются лишь частями страницы MovieDetailsPage, поэтому файлы этих компонентов храним в src/components.
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import {
   Link,
   NavLink,
@@ -9,6 +9,9 @@ import {
 } from 'react-router-dom';
 import css from './MovieDetailsPage.module.css';
 import { getMovieById } from '../../Api/apiMovie';
+import picture from "../../img/nopicture.jpg";
+
+
 
 const MovieDetailsPage = () => {
   const [loading, setLoading] = useState(false);
@@ -16,17 +19,18 @@ const MovieDetailsPage = () => {
   const [movie, setMovie] = useState(null);
   const { movieId } = useParams();
   const location = useLocation();
-  // const backLink = location.state?.from || `/movies`;
   const backLink = useRef(location.state ?? '/movies');
+
   console.log(backLink.current);
 
   const buildLinkClass = isActive =>
     `${css.link} ${isActive ? css.active : ''}`;
 
   useEffect(() => {
-    async function fetchData() {
+    const fetchData = async () => {
+          setLoading(true);
+          setError(false);
       try {
-        setLoading(true);
         const response = await getMovieById(movieId);
         setMovie(response.data);
       } catch (error) {
@@ -38,7 +42,7 @@ const MovieDetailsPage = () => {
     }
     fetchData();
   }, [movieId]);
-
+console.log(movie);
   return (
     <>
       {loading && <p>Is loading, please wait...</p>}
@@ -51,11 +55,16 @@ const MovieDetailsPage = () => {
       {movie && (
         <>
           <div className={css.movieWrapper}>
+       
             <img
               className={css.movieImage}
               height='300'
               width='500'
-              src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
+              src={
+                movie.backdrop_path !== null
+                  ? `https://image.tmdb.org/t/p/original/${movie.backdrop_path}`
+                  : picture
+              }
               alt={movie.title}
             />
             <div className={css.partMovieWrapper}>
@@ -70,7 +79,7 @@ const MovieDetailsPage = () => {
               <p className={css.movieDesc}>{movie.popularity}</p>
             </div>
           </div>
-          <p className={css.addDesc}>Additional information</p>
+          <h3 className={css.desc}>Additional information</h3>
           <ul className={css.additionalList}>
             <li className={css.listItem}>
               <NavLink className={buildLinkClass} to='cast'>
@@ -83,7 +92,11 @@ const MovieDetailsPage = () => {
               </NavLink>
             </li>
           </ul>
-          <Outlet />
+          <main>
+            <Suspense fallback={<p>Loading ...</p>}>
+              <Outlet />
+            </Suspense>
+          </main>
         </>
       )}
     </>

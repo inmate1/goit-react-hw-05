@@ -1,7 +1,7 @@
-import {  useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState, lazy, Suspense } from 'react';
 import css from './MoviesPage.module.css';
-import MovieList from '../../components/MovieList/MovieList'; 
+import MovieList from '../../components/MovieList/MovieList';
 import SearchForm from '../../components/SearchForm/SearchForm';
 import { getSearch } from '../../Api/apiMovie';
 
@@ -11,7 +11,6 @@ const MoviesPage = () => {
   const [loading, setLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
-
   const handleSubmitForm = value => {
     console.log(value);
     setSearchParams({ query: value });
@@ -20,9 +19,9 @@ const MoviesPage = () => {
   console.log(searchParams.get('query'));
   useEffect(() => {
     const fetchSearch = async () => {
+      setLoading(true);
+      setError(false);
       try {
-        setLoading(true);
-
         const queryParams = searchParams.get('query');
         if (queryParams === null) {
           return;
@@ -32,6 +31,7 @@ const MoviesPage = () => {
         console.log(response);
       } catch (error) {
         setError(true);
+        setLoading(false);
       } finally {
         setLoading(false);
       }
@@ -40,17 +40,13 @@ const MoviesPage = () => {
   }, [searchParams]);
 
   return (
-    <main>
+    <>
       <SearchForm onSearch={handleSubmitForm} />
 
       {error && <p>Oops! There was an error, please reload!</p>}
       {loading && <p>Loading, please wait...</p>}
-      {searchMovies && (
-        //  <Suspense fallback={<div>Loading...</div>}>
-        <MovieList searchMovies={searchMovies} />
-        //  </Suspense>
-      )}
-    </main>
+      {searchMovies && <MovieList searchMovies={searchMovies} />}
+    </>
   );
 };
 export default MoviesPage;

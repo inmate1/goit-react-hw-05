@@ -10,9 +10,11 @@ const HomePage = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    async function fetchMovies() {
+    const fetchMovies = async () => {
+      setLoading(true);
+      setError(false);
       try {
-        setLoading(true);
+  
         const data = await getTrendingMovies();
         setMovies(data.results);
         setError(false);
