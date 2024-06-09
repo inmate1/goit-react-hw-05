@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getListCast } from '../../Api/apiMovie';
-import styles from "./MovieCast.module.css"
-import noimage from "../../img/nopicture.jpg"
+import styles from './MovieCast.module.css';
+import noimage from '../../img/nopicture.jpg';
 const MovieCast = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -14,7 +14,6 @@ const MovieCast = () => {
       setError(false);
       try {
         const response = await getListCast(movieId);
-        console.log(response);
         setCasts(response.data.cast);
       } catch (error) {
         setError(true);
@@ -25,19 +24,24 @@ const MovieCast = () => {
     };
     fetchData();
   }, [movieId]);
-  console.log(casts);
 
   return (
-    <div>
-      MovieCast:
+    <main>
+      <h3>MovieCast:</h3>
+
       {loading && <p>Is loading, please wait...</p>}
       {error && <p>Oops! There was an error, please reload!</p>}
-      {casts.length !== 0 ? (
+      {!loading && !error && casts.length === 0 && <p>No casts available</p>}
+      {casts.length > 0 && (
         <ul className={styles.movieCastList}>
           {casts.map(cast => (
             <li key={cast.cast_id}>
               <img
-                src={cast.profile_path !== null ? `https://image.tmdb.org/t/p/w500/${cast.profile_path}` : noimage}
+                src={
+                  cast.profile_path !== null
+                    ? `https://image.tmdb.org/t/p/w500/${cast.profile_path}`
+                    : noimage
+                }
                 alt={cast.name}
                 width={150}
               />
@@ -49,10 +53,8 @@ const MovieCast = () => {
             </li>
           ))}
         </ul>
-      ) : (
-        !loading && !error && <p>No casts available</p>
       )}
-    </div>
+    </main>
   );
 };
 

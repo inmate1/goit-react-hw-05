@@ -21,7 +21,6 @@ const MovieDetailsPage = () => {
   const location = useLocation();
   const backLink = useRef(location.state ?? '/movies');
 
-  console.log(backLink.current);
 
   const buildLinkClass = isActive =>
     `${css.link} ${isActive ? css.active : ''}`;
@@ -42,7 +41,7 @@ const MovieDetailsPage = () => {
     }
     fetchData();
   }, [movieId]);
-console.log(movie);
+  
   return (
     <>
       {loading && <p>Is loading, please wait...</p>}

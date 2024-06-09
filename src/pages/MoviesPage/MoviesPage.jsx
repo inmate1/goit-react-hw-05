@@ -12,11 +12,9 @@ const MoviesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleSubmitForm = value => {
-    console.log(value);
     setSearchParams({ query: value });
   };
 
-  console.log(searchParams.get('query'));
   useEffect(() => {
     const fetchSearch = async () => {
       setLoading(true);
@@ -28,7 +26,6 @@ const MoviesPage = () => {
         }
         const response = await getSearch(queryParams);
         setSearchMovies(response.results);
-        console.log(response);
       } catch (error) {
         setError(true);
         setLoading(false);

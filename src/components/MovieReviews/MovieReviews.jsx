@@ -8,7 +8,6 @@ const MovieReviews = () => {
   const [error, setError] = useState(false);
 
   const { movieId } = useParams();
-  console.log(movieId);
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -25,12 +24,14 @@ const MovieReviews = () => {
     fetchData();
   }, [movieId]);
 
-  console.log(movieReviews);
   return (
-    <>
+    <main>
       {loading && <p>Loading please wait ...</p>}
       {error && <p>Oops! There was an error, please reload!</p>}
-      {movieReviews.length > 0 ? (
+      {!loading && !error && movieReviews.length === 0 && (
+        <p>No reviews available</p>
+      )}
+      {movieReviews.length > 0 && (
         <ul>
           {movieReviews.map(movieReview => (
             <li key={movieReview.id}>
@@ -39,10 +40,8 @@ const MovieReviews = () => {
             </li>
           ))}
         </ul>
-      ) : (
-        !loading && !error && <p>No reviews available</p>
       )}
-    </>
+    </main>
   );
 };
 
