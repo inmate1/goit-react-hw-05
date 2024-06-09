@@ -36,7 +36,6 @@ const MovieList = ({ movies, searchMovies }) => {
                   state={location}>
                   {movie.title}
                 </Link>
-                <h5>{`/movies/${movie.id}`}</h5>
               </li>
             ))}
           </ul>
