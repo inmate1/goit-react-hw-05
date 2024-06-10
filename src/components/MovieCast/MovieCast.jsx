@@ -26,7 +26,7 @@ const MovieCast = () => {
   }, [movieId]);
 
   return (
-    <main>
+    <>
       <h3>MovieCast:</h3>
 
       {loading && <p>Is loading, please wait...</p>}
@@ -54,7 +54,7 @@ const MovieCast = () => {
           ))}
         </ul>
       )}
-    </main>
+    </>
   );
 };
 

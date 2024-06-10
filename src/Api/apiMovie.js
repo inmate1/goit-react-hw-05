@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 const KEY_URL = import.meta.env.VITE_APP_API_KEY;
+
+
 const options = {
   method: 'GET',
   headers: {

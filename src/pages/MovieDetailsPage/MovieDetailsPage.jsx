@@ -7,11 +7,10 @@ import {
   useLocation,
   Outlet,
 } from 'react-router-dom';
+import { ClipLoader } from 'react-spinners';
 import css from './MovieDetailsPage.module.css';
 import { getMovieById } from '../../Api/apiMovie';
-import picture from "../../img/nopicture.jpg";
-
-
+import picture from '../../img/nopicture.jpg';
 
 const MovieDetailsPage = () => {
   const [loading, setLoading] = useState(false);
@@ -21,14 +20,13 @@ const MovieDetailsPage = () => {
   const location = useLocation();
   const backLink = useRef(location.state ?? '/movies');
 
-
   const buildLinkClass = isActive =>
     `${css.link} ${isActive ? css.active : ''}`;
 
   useEffect(() => {
     const fetchData = async () => {
-          setLoading(true);
-          setError(false);
+      setLoading(true);
+      setError(false);
       try {
         const response = await getMovieById(movieId);
         setMovie(response.data);
@@ -38,10 +36,10 @@ const MovieDetailsPage = () => {
       } finally {
         setLoading(false);
       }
-    }
+    };
     fetchData();
   }, [movieId]);
-  
+
   return (
     <>
       {loading && <p>Is loading, please wait...</p>}
@@ -54,7 +52,6 @@ const MovieDetailsPage = () => {
       {movie && (
         <>
           <div className={css.movieWrapper}>
-       
             <img
               className={css.movieImage}
               height='300'
@@ -92,7 +89,10 @@ const MovieDetailsPage = () => {
             </li>
           </ul>
           <main>
-            <Suspense fallback={<p>Loading ...</p>}>
+            <Suspense
+              fallback={
+                <ClipLoader color={'#123abc'} loading={true} size={100} />
+              }>
               <Outlet />
             </Suspense>
           </main>
